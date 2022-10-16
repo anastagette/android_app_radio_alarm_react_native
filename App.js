@@ -98,10 +98,21 @@ export default function App() {
     });
   };
 
-  const deleteItem = (id) => {
+  const deleteItem = (itemId) => {
     db.transaction(
       (tx) => {
-        tx.executeSql("delete from alarms where id = ?;", [id]);
+        tx.executeSql("select notificationId from alarms where id = ?;",
+          [itemId],
+          (_, { rows: { _array } }) =>
+            Notifications.cancelScheduledNotificationAsync(Object.values(_array[0])[0])
+        );
+      },
+      null,
+      forceUpdate
+    )
+    db.transaction(
+      (tx) => {
+        tx.executeSql("delete from alarms where id = ?;", [itemId]);
         tx.executeSql("select * from alarms",
           [],
           (_, { rows: { _array } }) => setItems(_array)
@@ -194,7 +205,7 @@ export default function App() {
       trigger: {
         hour: notificationHour,
         minute: notificationMinute,
-        repeats: true
+        repeats: false
       },
     };
 
@@ -202,6 +213,8 @@ export default function App() {
       await Notifications.scheduleNotificationAsync(
       schedulingOptions,
     ));
+
+    console.log(notificationId)
 
     return notificationId;
   };
