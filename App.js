@@ -214,8 +214,6 @@ export default function App() {
       schedulingOptions,
     ));
 
-    console.log(notificationId)
-
     return notificationId;
   };
 
