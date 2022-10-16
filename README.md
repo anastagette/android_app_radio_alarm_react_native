@@ -7,6 +7,8 @@
 - Created with React Native. 
 
 
+To remove an alarm from the list, just click on it.
+
 ### Activated app usage demonstration
 
 If the app is active, the alarm appears on the screen and some radio starts to play. There are three options of radio to choose.
