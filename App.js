@@ -205,7 +205,7 @@ export default function App() {
       trigger: {
         hour: notificationHour,
         minute: notificationMinute,
-        repeats: false
+        repeats: true
       },
     };
 
